@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: ./api
+      args:
+        - API_PORT=3000
+    environment:
+      - API_PORT=3000
+  mongo:
+    image: mongo
+    command: --quiet
