@@ -1,6 +1,6 @@
 <script>
-import moment from 'moment'
-import { startInterval, saveTime, deleteTime } from '../utils/time'
+import moment from 'moment';
+import { startInterval, saveTime, deleteTime } from '../utils/time';
 
 export default {
   props: {
@@ -10,7 +10,7 @@ export default {
     return {
       currentTime: moment().format('HH:mm:ss'),
       savedTimes: [],
-    }
+    };
   },
   methods: {
     startInterval,
@@ -18,12 +18,12 @@ export default {
     deleteTime,
   },
   created: async function () {
-    this.startInterval()
-    const res = await fetch('http://localhost:5555/times')
-    const json = await res.json()
-    if (json.length) this.savedTimes = json
+    this.startInterval();
+    const res = await fetch('http://localhost:5555/times');
+    const json = await res.json();
+    if (json.length) this.savedTimes = json;
   },
-}
+};
 </script>
 
 <template>
@@ -31,19 +31,10 @@ export default {
     <h1 class="green">{{ currentTime }}</h1>
     <h3>Нажмите кнопку для сохранения в базе данных</h3>
     <button @click="saveTime">Сохранить время</button>
-    <h3 v-if="savedTimes.length && showSavedTimes">
-      Ранее сохраненные времена:
-    </h3>
-    <div
-      v-if="showSavedTimes"
-      class="deleted-items"
-      v-for="savedTime in savedTimes"
-      :key="savedTime.id"
-    >
+    <h3 v-if="savedTimes.length && showSavedTimes">Ранее сохраненные времена:</h3>
+    <div v-if="showSavedTimes" class="deleted-items" v-for="savedTime in savedTimes" :key="savedTime.id">
       <div class="deleted-item">{{ savedTime.time }}</div>
-      <button class="btn-sm bg-red" @click="() => deleteTime(savedTime.id)">
-        Удалить
-      </button>
+      <button class="btn-sm bg-red" @click="() => deleteTime(savedTime.id)">Удалить</button>
     </div>
   </div>
 </template>

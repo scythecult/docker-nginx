@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+    env_file:
+      - path: './db.env'
+        required: true
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_root_password
+    volumes:
+      - db_data:/var/lib/mysql
+
+  api:
+    depends_on:
+      mysql:
+        condition: service_healthy
+    build: ./api
+    ports:
+      - '5555:5000'
+    restart: unless-stopped
+    env_file:
+      - path: './db.env'
+        required: true
+    stdin_open: true
+    tty: true
+
+  front:
+    build: ./frontend
+    ports:
+      - '8000:80'
+
+volumes:
+  db_data:
+
+secrets:
+  db_root_password:
+    file: db_password.txt
