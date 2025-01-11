@@ -1,4 +1,4 @@
-# Создаём контейнер на основе ноды
+# Создаём контейнер на основе ноды stupidasso
 FROM node:22-alpine AS builder
 WORKDIR /app/frontend
 # Для оптимизации, сначала копируем только package-файлы
