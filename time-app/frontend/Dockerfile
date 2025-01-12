@@ -1,4 +1,5 @@
 # Создаём контейнер на основе ноды
+# Some changes in main branch
 FROM node:22-alpine AS builder
 WORKDIR /app/frontend
 # Для оптимизации, сначала копируем только package-файлы
